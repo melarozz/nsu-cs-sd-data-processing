@@ -5,7 +5,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Main thread starts");
 
-        Thread childThread = new Thread(new MyRunnable());
+        Thread childThread = new Thread(new StringPrinterRunnable());
         childThread.start();
 
         // main thread 2 sec sleep before interrupting child
@@ -22,14 +22,15 @@ public class Main {
     }
 }
 
-class MyRunnable implements Runnable {
+class StringPrinterRunnable implements Runnable {
 
+    private static final int NUM_ITERATIONS = 10;
     @Override
     public void run() {
         System.out.println("Child thread starts");
 
         try {
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < NUM_ITERATIONS; i++) {
                 // check interruption
                 if (Thread.currentThread().isInterrupted()) {
                     System.out.println("Child thread is interrupted. Preparing to finish...");
