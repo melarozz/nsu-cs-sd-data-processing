@@ -9,15 +9,15 @@ public class MyThread {
     static final Lock mutex = new ReentrantLock();
     // flag for determining the turn
     static boolean isParentTurn = true;
+    private static final int NUM_ITERATIONS = 10;
 
     public static void main(String[] args) {
 
         System.out.println("Main thread starts");
 
-        Thread thread = new Thread(new MyRunnable());
+        Thread thread = new Thread(new StringPrinterRunnable());
         thread.start();
 
-        int NUM_ITERATIONS = 10;
         // main thread loop
         for (int i = 0; i < NUM_ITERATIONS; i++) {
             synchronized (mutex) {
@@ -47,13 +47,14 @@ public class MyThread {
     }
 }
 
-class MyRunnable implements Runnable {
+class StringPrinterRunnable implements Runnable {
+
+    private static final int NUM_ITERATIONS = 10;
 
     @Override
     public void run() {
         System.out.println("New thread starts");
 
-        int NUM_ITERATIONS = 10;
         for (int i = 0; i < NUM_ITERATIONS; i++) {
             synchronized (MyThread.mutex) {
                 // check if it's parent's turn
